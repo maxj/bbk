@@ -26,7 +26,6 @@ public class QueryObject {
 		setQueryTime(qT);
 		
 		queryToClickDifference();
-		
 	}
 	
 	public void setUserID(String s){
@@ -45,7 +44,7 @@ public class QueryObject {
 		try{
 			d = df.parse(string);
 		} catch (ParseException parseException){
-			System.out.println(parseException.getLocalizedMessage());
+			//System.out.println(parseException.getLocalizedMessage());
 		}
 		return d; 
 	}
@@ -56,14 +55,6 @@ public class QueryObject {
 		}
 	}
 
-	
-
-	
-	
-	
-	
-	
-	
 	
 	// Get/Set
 	private void setClickTime(String s) {
@@ -110,6 +101,7 @@ public class QueryObject {
 		return featureHash.get(feature);
 	}
 	
+
 	
 	
 }

@@ -10,22 +10,8 @@ import java.util.List;
 
 
 public class DataLoad {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		DataLoad dl = new DataLoad();
-		System.out.println("RUNNING");
-		File file = new File("train.csv");
-		List<QueryObject> QueryObjects = dl.readCSVbyLine(file);
-		Date d = dl.getAverageClickDifference(QueryObjects);
-		System.out.println("Average time between query and click: " + d.getSeconds() + " seconds.");
-		
-	}
 	
-	public List<QueryObject> readCSVbyLine(File f){
+	public static List<QueryObject> readCSVbyLine(File f){
 		 String[] out = null;
 		 List<QueryObject> objects = new ArrayList<QueryObject>();
 		if (!f.exists() && f.length() < 0) {
@@ -43,6 +29,7 @@ public class DataLoad {
      				out = st.split(",");
                     QueryObject qo;
                     if(limit>0){
+                    		out[3] = out[3].replaceAll("(^\")|(\"$)","");
                     		out[4] = out[4].replaceAll("(^\")|(\"$)","");
                     		out[5] = out[5].replaceAll("(^\")|(\"$)","");
                     		qo = new QueryObject(out[0], out[1], out[2], out[3], out[4], out[5]);
@@ -56,27 +43,22 @@ public class DataLoad {
      			 System.out.println(ioException.getLocalizedMessage());
      		 }
 		}
-		System.out.println(objects.size());
-		System.out.println(objects.get(0).getUserID());
-		System.out.println(objects.get(0).getQuery());
 		return objects; 	
 	}
 	
-	public Date getAverageClickDifference(List<QueryObject> list){
-		Long sum = new Long(0);
-		Long count = new Long(0);
-		for(QueryObject qo : list){
-			if(qo.getFeature("queryClickDifference")!=null){
-				sum = sum + (Long) qo.getFeature("queryClickDifference");
-				count = count + 1;
+	public static List<String> uniqueSKUs(List<QueryObject> objects){
+		List<String> SKUs = new ArrayList<String>();
+		for(QueryObject qo : objects){
+			if(!SKUs.contains(qo.getSku())){
+				SKUs.add(qo.getSku());
 			}
+			
 		}
-		return new Date(sum/count);
+		return SKUs;
 	}
 	
-	
-	
-	
+
+
 	
 	
 	
